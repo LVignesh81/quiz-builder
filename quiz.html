@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      background: #007bff;
+      color: white;
+      width: 100%;
+      text-align: center;
+      padding: 15px 0;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #e9ecef;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz Builder</h1>
+  <div class="container">
+    <label for="question">Question:</label>
+    <textarea id="question" rows="2" placeholder="Enter your question here"></textarea>
+
+    <label>Options:</label>
+    <input type="text" id="opt1" placeholder="Option 1">
+    <input type="text" id="opt2" placeholder="Option 2">
+    <input type="text" id="opt3" placeholder="Option 3">
+    <input type="text" id="opt4" placeholder="Option 4">
+
+    <label for="correct">Correct Option (1-4):</label>
+    <input type="number" id="correct" min="1" max="4" placeholder="Enter correct option number">
+
+    <button onclick="addQuestion()">Add Question</button>
+
+    <h3>Quiz Preview</h3>
+    <ul id="quizList"></ul>
+  </div>
+
+  <script>
+    const quiz = [];
+
+    function addQuestion() {
+      const question = document.getElementById("question").value;
+      const opt1 = document.getElementById("opt1").value;
+      const opt2 = document.getElementById("opt2").value;
+      const opt3 = document.getElementById("opt3").value;
+      const opt4 = document.getElementById("opt4").value;
+      const correct = document.getElementById("correct").value;
+
+      if (!question || !opt1 || !opt2 || !opt3 || !opt4 || !correct) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      const newQ = {
+        question,
+        options: [opt1, opt2, opt3, opt4],
+        correct: correct
+      };
+
+      quiz.push(newQ);
+      displayQuiz();
+
+      // clear input fields
+      document.getElementById("question").value = "";
+      document.getElementById("opt1").value = "";
+      document.getElementById("opt2").value = "";
+      document.getElementById("opt3").value = "";
+      document.getElementById("opt4").value = "";
+      document.getElementById("correct").value = "";
+    }
+
+    function displayQuiz() {
+      const list = document.getElementById("quizList");
+      list.innerHTML = "";
+      quiz.forEach((q, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>Q${index + 1}:</strong> ${q.question}<br>
+          <em>Options:</em> ${q.options.join(", ")}<br>
+          <em>Correct:</em> Option ${q.correct}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
